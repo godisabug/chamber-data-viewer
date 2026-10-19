@@ -1,0 +1,40 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Local isolated feature worktrees
+.worktrees/
+
+# Local Impeccable tools and generated review artifacts
+.impeccable/
+
+# Local temporary files
+.tmp/
+
+# Local chamber sample data (kept on disk, never committed)
+raw_data_files/*/
+!raw_data_files/*.md
+
+# Portable build output (published via GitHub Releases)
+portable/

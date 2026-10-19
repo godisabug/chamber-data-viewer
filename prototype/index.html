@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#1a1f25" />
+    <title>实验箱数据查看器 · 视觉原型</title>
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="./prototype.css" />
+  </head>
+  <body>
+    <svg class="icon-definitions" aria-hidden="true">
+      <symbol id="icon-app" viewBox="0 0 24 24">
+        <rect class="mark-frame" x="3.75" y="2.75" width="16.5" height="18.5" rx="0.75" />
+        <path class="mark-frame" d="M3.75 7h16.5" />
+        <circle class="mark-status" cx="17.25" cy="4.9" r="0.7" />
+        <path class="mark-trace" d="m6.5 16.5 3.5-3.9 2.75 2.15 4.75-5.5" />
+      </symbol>
+      <symbol id="icon-collapse" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <path d="M9 3v18m7-6-3-3 3-3" />
+      </symbol>
+      <symbol id="icon-expand" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <path d="M9 3v18m4-6 3-3-3-3" />
+      </symbol>
+      <symbol id="icon-more" viewBox="0 0 24 24">
+        <circle cx="5" cy="12" r="1" fill="currentColor" stroke="none" />
+        <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+        <circle cx="19" cy="12" r="1" fill="currentColor" stroke="none" />
+      </symbol>
+      <symbol id="icon-add" viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12h14" />
+      </symbol>
+      <symbol id="icon-file-chart" viewBox="0 0 24 24">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M8 18v-4m4 4v-7m4 7v-2" />
+      </symbol>
+      <symbol id="icon-close" viewBox="0 0 24 24">
+        <path d="m6 6 12 12M18 6 6 18" />
+      </symbol>
+      <symbol id="icon-lock" viewBox="0 0 24 24">
+        <rect x="5" y="10" width="14" height="10" rx="1.5" />
+        <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+      </symbol>
+    </svg>
+
+    <div class="prototype-app" id="prototypeApp" data-view="loaded">
+      <header class="app-titlebar" aria-label="应用标题栏">
+        <div class="app-identity" aria-label="实验箱数据查看器">
+          <span class="app-identity-mark" aria-hidden="true">
+            <svg><use href="#icon-app" /></svg>
+          </span>
+          <h1>实验箱数据查看器</h1>
+        </div>
+        <div class="titlebar-drag-region" aria-hidden="true"></div>
+        <div class="window-controls" aria-label="窗口控制">
+          <button
+            class="window-control"
+            id="windowMinimize"
+            type="button"
+            aria-label="最小化窗口"
+            title="浏览器原型：桌面版中最小化窗口"
+          ><span class="window-control-icon is-minimize" aria-hidden="true"></span></button>
+          <button
+            class="window-control"
+            id="windowMaximize"
+            type="button"
+            aria-label="进入全屏预览"
+            title="进入全屏预览"
+          ><span class="window-control-icon is-maximize" aria-hidden="true"></span></button>
+          <button
+            class="window-control is-close"
+            id="windowClose"
+            type="button"
+            aria-label="关闭窗口"
+            title="浏览器原型：桌面版中关闭窗口"
+          ><span class="window-control-icon is-close" aria-hidden="true"></span></button>
+        </div>
+      </header>
+
+      <aside class="sidebar" id="sidebar" aria-label="数据来源">
+        <header class="sidebar-header">
+          <h2 id="sidebarTitle">数据来源</h2>
+          <button
+            class="icon-button sidebar-toggle"
+            id="sidebarToggle"
+            type="button"
+            aria-label="折叠数据来源"
+            aria-controls="sidebar"
+            aria-expanded="true"
+            title="折叠数据来源"
+          >
+            <svg class="collapse-icon"><use href="#icon-collapse" /></svg>
+            <svg class="expand-icon"><use href="#icon-expand" /></svg>
+          </button>
+        </header>
+
+        <div class="file-list" aria-label="已打开的数据文件">
+          <article class="file-entry is-active" id="fileEntry">
+            <button class="file-select" type="button" aria-current="page">
+              <span class="file-name">710.000</span>
+            </button>
+            <div class="file-entry-actions">
+              <button
+                class="icon-button menu-trigger"
+                id="menuTrigger"
+                type="button"
+                aria-label="710.000 文件操作"
+                aria-expanded="false"
+              >
+                <svg><use href="#icon-more" /></svg>
+              </button>
+              <div class="file-menu" id="fileMenu" role="menu" hidden>
+                <button type="button" role="menuitem" data-action="replace">更换文件</button>
+                <button type="button" role="menuitem" data-action="close">关闭数据集</button>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <footer class="sidebar-footer">
+          <button class="open-file-button" id="openFileButton" type="button">
+            <span class="open-file-icon" aria-hidden="true">
+              <svg><use href="#icon-add" /></svg>
+            </span>
+            <span class="open-file-copy">
+              <strong id="openFileTitle">打开数据文件</strong>
+            </span>
+          </button>
+        </footer>
+      </aside>
+
+      <div
+        class="sidebar-resizer"
+        id="sidebarResizer"
+        role="separator"
+        tabindex="0"
+        aria-label="调整侧栏宽度"
+        aria-controls="sidebar workspace"
+        aria-orientation="vertical"
+        aria-valuemin="48"
+        aria-valuemax="420"
+        aria-valuenow="264"
+        aria-valuetext="264 像素"
+        title="拖动调整宽度；方向键微调；Enter 折叠或展开"
+      ></div>
+
+      <main class="workspace" id="workspace">
+        <section class="command-bar loaded-only" aria-label="时间范围">
+          <div class="range-group">
+            <label class="range-field">
+              <span>开始时间</span>
+              <input id="startTime" type="datetime-local" step="1" value="2026-05-02T07:57:49" />
+            </label>
+            <label class="range-field">
+              <span>截止时间</span>
+              <input id="endTime" type="datetime-local" step="1" value="2026-07-03T10:43:20" />
+            </label>
+            <button class="primary-button" id="applyRange" type="button">应用范围</button>
+          </div>
+
+          <div class="command-actions">
+            <label class="cursor-switch" title="显示或隐藏游标和读数">
+              <span>游标</span>
+              <input id="cursorToggle" type="checkbox" role="switch" checked />
+              <span class="switch-track" aria-hidden="true"></span>
+            </label>
+            <button class="text-button" id="resetView" type="button">重置视图</button>
+            <button
+              class="text-button"
+              id="settingsToggle"
+              type="button"
+              aria-expanded="false"
+            >图表设置</button>
+          </div>
+          <p class="range-error" id="rangeError" role="alert" hidden></p>
+        </section>
+
+        <section class="empty-state empty-only" aria-label="空状态">
+          <div class="empty-message">
+            <svg aria-hidden="true"><use href="#icon-file-chart" /></svg>
+            <p>尚未打开数据文件</p>
+          </div>
+        </section>
+
+        <section class="chart-workspace loaded-only">
+          <div class="legend" role="group" aria-label="曲线图例">
+            <div class="legend-group">
+              <button class="legend-group-label" type="button" data-axis="temperature">温度</button>
+              <button class="legend-item is-temperature" type="button" data-series="tempMeasured" aria-pressed="true" title="温度实测值">
+                <span class="line-swatch solid"></span>
+                <span class="sr-only">温度实测值</span>
+              </button>
+              <button class="legend-item is-temperature-set" type="button" data-series="tempSetpoint" aria-pressed="true" title="温度设定值">
+                <span class="line-swatch dashed"></span>
+                <span class="sr-only">温度设定值</span>
+              </button>
+            </div>
+            <div class="legend-group">
+              <button class="legend-group-label" type="button" data-axis="humidity">湿度</button>
+              <button class="legend-item is-humidity" type="button" data-series="humidityMeasured" aria-pressed="true" title="湿度实测值">
+                <span class="line-swatch solid"></span>
+                <span class="sr-only">湿度实测值</span>
+              </button>
+              <button class="legend-item is-humidity-set" type="button" data-series="humiditySetpoint" aria-pressed="true" title="湿度设定值">
+                <span class="line-swatch dashed"></span>
+                <span class="sr-only">湿度设定值</span>
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="chart-frame"
+            id="chartFrame"
+            tabindex="0"
+            role="img"
+            aria-label="温度和湿度时间序列图。可使用鼠标滚轮缩放，拖动平移。"
+          >
+            <canvas id="chartCanvas"></canvas>
+            <div class="chart-tooltip" id="chartTooltip" role="status" hidden>
+              <time id="tooltipTime"></time>
+              <div><span class="tooltip-marker is-blue"></span><span>温度实测</span><strong id="tooltipTemp"></strong><em>°C</em></div>
+              <div><span class="tooltip-marker is-dark"></span><span>湿度实测</span><strong id="tooltipHumidity"></strong><em>%RH</em></div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="settings-panel" id="settingsPanel" aria-label="图表设置" hidden>
+          <header class="settings-heading" id="settingsHeading">
+            <h2>图表设置</h2>
+            <button class="icon-button" id="settingsClose" type="button" aria-label="关闭图表设置">
+              <svg><use href="#icon-close" /></svg>
+            </button>
+          </header>
+          <section>
+            <div class="settings-section-heading">
+              <h3>纵坐标范围</h3>
+              <span>留空时自动计算</span>
+            </div>
+            <div class="axis-switch" role="group" aria-label="选择坐标轴">
+              <button class="is-active" type="button" data-axis-tab="temperature" aria-pressed="true">温度 °C</button>
+              <button type="button" data-axis-tab="humidity" aria-pressed="false">湿度 %RH</button>
+            </div>
+            <div class="axis-fields">
+              <label><span id="axisMinLabel">温度下限</span><input id="axisMin" type="number" step="0.1" value="-60" /></label>
+              <label><span id="axisMaxLabel">温度上限</span><input id="axisMax" type="number" step="0.1" value="120" /></label>
+            </div>
+          </section>
+          <section>
+            <div class="settings-section-heading">
+              <h3>刻度格数</h3>
+              <span>1 至 9 格</span>
+            </div>
+            <div class="axis-fields">
+              <label><span>纵轴刻度格数</span><input id="yGridCount" type="number" min="1" max="9" value="6" /></label>
+              <label><span>横轴刻度格数</span><input id="xGridCount" type="number" min="1" max="9" value="6" /></label>
+            </div>
+          </section>
+          <footer class="settings-actions">
+            <button class="primary-button" id="applySettings" type="button">应用设置</button>
+            <button class="secondary-button" id="resetSettings" type="button">重置设置</button>
+          </footer>
+        </aside>
+      </main>
+    </div>
+
+    <div class="sr-only" id="liveRegion" aria-live="polite"></div>
+    <script src="./prototype.js"></script>
+  </body>
+</html>

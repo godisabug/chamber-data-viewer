@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1024 1024"
+  role="img"
+  aria-labelledby="title description"
+>
+  <title id="title">实验箱数据查看器</title>
+  <desc id="description">深色观测框内的一条蓝色试验数据轨迹</desc>
+  <metadata>
+    Project-owned application icon derived from src/components/AppMark.tsx.
+    The rectangle and trace share the same 24-unit geometry at every size.
+    Palette: graphite #17191c, instrument line #d9dbde, BMW blue #1c69d4.
+  </metadata>
+  <rect width="1024" height="1024" fill="#17191c" />
+  <rect
+    x="170.667"
+    y="170.667"
+    width="682.666"
+    height="682.666"
+    fill="none"
+    stroke="#d9dbde"
+    stroke-width="64"
+  />
+  <path
+    d="M298.667 682.667 469.333 512 597.333 597.333 725.333 384"
+    fill="none"
+    stroke="#1c69d4"
+    stroke-width="76"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
