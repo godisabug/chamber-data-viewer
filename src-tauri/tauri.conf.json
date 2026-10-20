@@ -30,7 +30,24 @@
     }
   },
   "bundle": {
-    "active": false,
+    "active": true,
+    "targets": ["nsis"],
+    "publisher": "godisabug",
+    "homepage": "https://github.com/godisabug/chamber-data-viewer",
+    "copyright": "Copyright (C) 2026 godisabug",
+    "license": "GPL-3.0-only",
+    "shortDescription": "试验箱温湿度数据离线查看器",
+    "windows": {
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper",
+        "silent": true
+      },
+      "nsis": {
+        "installMode": "currentUser",
+        "languages": ["SimpChinese"],
+        "installerIcon": "icons/icon.ico"
+      }
+    },
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

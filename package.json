@@ -9,6 +9,7 @@
     "prototype": "vite prototype --host 127.0.0.1 --port 1421",
     "build": "tsc -b && vite build",
     "build:portable": "tauri build --no-bundle",
+    "build:installer": "tauri build --bundles nsis",
     "lint": "oxlint src vite.config.ts packaging.test.mjs",
     "preview": "vite preview",
     "test": "vitest run",

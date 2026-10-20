@@ -10,25 +10,28 @@ function readText(path) {
   return readFileSync(path, "utf8");
 }
 
-describe("portable desktop delivery", () => {
-  it("builds a green single-file executable instead of installers", () => {
+describe("desktop delivery", () => {
+  it("builds a green single-file executable and a per-user NSIS installer", () => {
     const packageJson = readJson("package.json");
     const tauriConfig = readJson("src-tauri/tauri.conf.json");
 
     expect(packageJson.scripts["build:portable"]).toBe("tauri build --no-bundle");
+    expect(packageJson.scripts["build:installer"]).toBe("tauri build --bundles nsis");
     expect(tauriConfig.mainBinaryName).toBe("实验箱数据查看器");
-    expect(tauriConfig.bundle.active).toBe(false);
-    expect(tauriConfig.bundle.targets).toBeUndefined();
-    expect(tauriConfig.bundle.windows).toBeUndefined();
+    expect(tauriConfig.bundle.active).toBe(true);
+    expect(tauriConfig.bundle.targets).toEqual(["nsis"]);
+    expect(tauriConfig.bundle.windows.nsis.installMode).toBe("currentUser");
+    expect(tauriConfig.bundle.windows.nsis.languages).toEqual(["SimpChinese"]);
+    expect(tauriConfig.bundle.windows.webviewInstallMode.type).toBe("downloadBootstrapper");
   });
 
-  it("documents the portable executable as the delivery artifact", () => {
+  it("documents both delivery artifacts", () => {
     const readme = readText("README.md");
-    const deliveryPath = "src-tauri\\target\\release\\实验箱数据查看器.exe";
 
     expect(readme).toContain("npm run build:portable");
-    expect(readme).toContain(deliveryPath);
-    expect(readme).not.toContain("src-tauri\\target\\release\\bundle");
+    expect(readme).toContain("src-tauri\\target\\release\\实验箱数据查看器.exe");
+    expect(readme).toContain("npm run build:installer");
+    expect(readme).toContain("src-tauri\\target\\release\\bundle\\nsis\\");
   });
 
   it("runs referenced TypeScript builds and exposes a local lint command", () => {
