@@ -27,9 +27,12 @@ Windows 离线桌面软件，打开各品牌试验箱控制器 / HMI 导出的�
 
 ## 下载与运行
 
-在 [Releases](https://github.com/godisabug/chamber-data-viewer/releases) 下载绿色版 exe（`chamber-data-viewer-<版本>-windows-x64.exe`），无需安装，直接运行。程序未做代码签名，首次运行时 Windows SmartScreen 可能提示“未知发布者”，选择“仍要运行”即可。
+在 [Releases](https://github.com/godisabug/chamber-data-viewer/releases) 下载，两种形式任选其一：
 
-运行依赖 Microsoft WebView2 Runtime（Windows 11 与较新的 Windows 10 已自带）；绿色版不会自动安装 WebView2。
+- **安装版**（`chamber-data-viewer-<版本>-windows-x64-setup.exe`）：安装到当前用户目录，无需管理员权限，创建开始菜单快捷方式，可在系统“应用”中卸载；缺少 WebView2 Runtime 时会自动下载安装。
+- **绿色版**（`chamber-data-viewer-<版本>-windows-x64.exe`）：单文件，无需安装，直接运行；需要系统已有 WebView2 Runtime（Windows 11 与较新的 Windows 10 已自带）。
+
+两种形式共用同一份本地设置。程序未做代码签名，首次运行时 Windows SmartScreen 可能提示“未知发布者”，选择“仍要运行”即可。
 
 ## 开发
 
@@ -52,10 +55,11 @@ npm run lint
 ## 打包
 
 ```powershell
-npm run build:portable
+npm run build:portable   # 绿色版
+npm run build:installer  # 安装版（NSIS）
 ```
 
-`CARGO_TARGET_DIR` 决定 Rust 产物根目录。未设置该变量时，绿色单文件产物的默认回退位置为 `src-tauri\target\release\实验箱数据查看器.exe`；设置后应从相应 target 根目录取用可执行文件。
+`CARGO_TARGET_DIR` 决定 Rust 产物根目录。未设置该变量时，绿色版位于 `src-tauri\target\release\实验箱数据查看器.exe`，安装版位于 `src-tauri\target\release\bundle\nsis\`；设置后应从相应 target 根目录取用。
 
 ## 新增数据格式
 
